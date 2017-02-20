@@ -6,9 +6,14 @@
 package scrabble;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JFrame;
+import scrabble.edd.ColaDeFichas;
 import scrabble.edd.Diccionario;
 import scrabble.edd.Tablero;
+import scrabble.edd_models.Ficha;
+import scrabble.edd_models.Letra;
 import scrabble.xml_models.Scrabble;
 
 /**
@@ -20,6 +25,7 @@ public class frmScrabbleGame extends javax.swing.JFrame {
     private Scrabble scrabble;
     private Diccionario diccionario = new Diccionario();
     private Tablero tablero = new Tablero();
+    private ColaDeFichas colaDeFichas = new ColaDeFichas();
     
     /**
      * Creates new form frmScrabbleGame
@@ -57,6 +63,74 @@ public class frmScrabbleGame extends javax.swing.JFrame {
                 tablero.insertar(x, y, multiplicador);
             }
         }
+        
+        //creación de la fichas segun el enunciado
+        //se utiliza una ArrayList solo con la finalidad de tener la cantidad 
+        //total de fichas y su punteo, esto luego se distribuye de forma
+        //random en la "ColaDeFichas"
+        ArrayList<Letra> configuracionLetras = new ArrayList<>();
+        configuracionLetras.add(new Letra("A",1,12));
+        configuracionLetras.add(new Letra("E",1,12));
+        configuracionLetras.add(new Letra("O",1,9));
+        configuracionLetras.add(new Letra("I",1,6));
+        configuracionLetras.add(new Letra("S",1,6));
+        configuracionLetras.add(new Letra("N",1,5));
+        configuracionLetras.add(new Letra("L",1,4));
+        configuracionLetras.add(new Letra("R",1,5));
+        configuracionLetras.add(new Letra("U",1,5));
+        configuracionLetras.add(new Letra("T",1,4));
+        configuracionLetras.add(new Letra("D",2,5));
+        configuracionLetras.add(new Letra("G",2,2));
+        configuracionLetras.add(new Letra("C",3,4));
+        configuracionLetras.add(new Letra("B",3,2));
+        configuracionLetras.add(new Letra("M",3,2));
+        configuracionLetras.add(new Letra("P",3,2));
+        configuracionLetras.add(new Letra("H",4,2));
+        configuracionLetras.add(new Letra("F",4,1));
+        configuracionLetras.add(new Letra("V",4,1));
+        configuracionLetras.add(new Letra("Y",4,1));
+        configuracionLetras.add(new Letra("Q",5,1));
+        configuracionLetras.add(new Letra("J",8,1));
+        configuracionLetras.add(new Letra("Ñ",8,1));
+        configuracionLetras.add(new Letra("X",8,1));
+        configuracionLetras.add(new Letra("Z",10,1));
+        
+        //ahora se ingresarán de forma aleatoria en la "ColaDeFichas"
+        while (configuracionLetras.size() > 0){
+            //vamos a vaciar la configuracion de letras de forma aleatoria
+            
+            Random rand = new Random();
+            int n = 0;
+            
+            if (configuracionLetras.size() > 1){
+                n = rand.nextInt(configuracionLetras.size()-1);
+            }
+            
+            if (n < configuracionLetras.size()){
+                Letra letra = configuracionLetras.get(n);
+                
+                //creamos la ficha para se utilizada en el tablero
+                Ficha ficha = new Ficha();
+                ficha.setLetra(letra.getLetra());
+                ficha.setPuntos(letra.getPunteo());
+                
+                //encolamos
+                colaDeFichas.encolar(ficha);
+                
+                //revisamos la cantidad que aún tenemos de estas letras
+                if (letra.getCantidad()==1){
+                    //remover del arreglo
+                    configuracionLetras.remove(n);
+                }else{
+                    //actualizar del arreglo
+                    configuracionLetras.get(n).setCantidad(letra.getCantidad()-1);
+                }
+                
+            }
+        }
+        
+        System.out.println("La cantidad de fichas en la cola es de = " + colaDeFichas.getTamano());
+        System.out.println("Fin de Carga");
         
     }
 

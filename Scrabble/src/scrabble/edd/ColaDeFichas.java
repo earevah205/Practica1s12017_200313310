@@ -60,4 +60,8 @@ public class ColaDeFichas {
 
         tamano++;
       }
+      
+      public int getTamano(){
+          return tamano;
+      }
 }

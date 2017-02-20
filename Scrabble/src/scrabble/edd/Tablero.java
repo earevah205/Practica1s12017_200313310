@@ -85,14 +85,14 @@ public class Tablero {
         NodoTablero temp = nodoInicio;
         
         while (temp.getLateral().getPosicionY() < nuevo.getLateral().getPosicionY()) {
-            temp = temp.getArriba();
+            temp = temp.getAbajo();
         }
         
-        NodoTablero temp2 = temp.getAbajo();
-        temp2.setArriba(nuevo);
-        nuevo.setArriba(temp);
-        nuevo.setAbajo(temp2);
-        temp.setAbajo(nuevo);
+        NodoTablero temp2 = temp.getArriba();
+        temp2.setAbajo(nuevo);
+        nuevo.setAbajo(temp);
+        nuevo.setArriba(temp2);
+        temp.setArriba(nuevo);
         
     }
     
@@ -116,8 +116,8 @@ public class Tablero {
         
         NodoTablero temp = nodoInicio;
         
-        while (temp.getLateral().getPosicionY() < nuevo.getLateral().getPosicionY()) {
-            temp = temp.getArriba();
+        while (temp.getCabecera().getPosicionX() < nuevo.getCabecera().getPosicionX()) {
+            temp = temp.getDerecha();
         }
         
         NodoTablero temp2 = temp.getIzquierda();

@@ -54,14 +54,14 @@ public class ListaLateralTablero {
         NodoLateralTablero temp = nodoInicio;
         
         while (temp.getPosicionY() < nuevo.getPosicionY()) {
-            temp = temp.getArriba();
+            temp = temp.getAbajo();
         }
         
-        NodoLateralTablero temp2 = temp.getAbajo();
-        temp2.setArriba(nuevo);
-        nuevo.setArriba(temp);
-        nuevo.setAbajo(temp2);
-        temp.setAbajo(nuevo);
+        NodoLateralTablero temp2 = temp.getArriba();
+        temp2.setAbajo(nuevo);
+        nuevo.setAbajo(temp);
+        nuevo.setArriba(temp2);
+        temp.setArriba(nuevo);
         
     }
     

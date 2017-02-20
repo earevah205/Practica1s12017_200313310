@@ -5,11 +5,18 @@
  */
 package scrabble.models;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+
 /**
  *
  * @author estuardoarevalo
  */
+
+@XStreamAlias("triples")
 public class Triple {
+    
+    @XStreamImplicit(itemFieldName="casilla")
     private Casilla[] casillas;
 
     /**

@@ -5,16 +5,25 @@
  */
 package scrabble.models;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 /**
  *
  * @author estuardoarevalo
  */
+@XStreamAlias("scrabble")
 public class Scrabble {
     
-    
+    @XStreamAlias("dimension")
     private int dimension;
+    
+    @XStreamAlias("dobles")
     private Doble dobles;
+    
+    @XStreamAlias("triples")
     private Triple triples;
+    
+    @XStreamAlias("diccionario")
     private Diccionario diccionario;
 
     /**

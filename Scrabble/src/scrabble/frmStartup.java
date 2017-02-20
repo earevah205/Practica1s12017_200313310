@@ -26,6 +26,8 @@ import scrabble.models.Scrabble;
  */
 public class frmStartup extends javax.swing.JFrame {
 
+    private Scrabble scrabble;
+    
     /**
      * Creates new form frmStartup
      */
@@ -173,14 +175,13 @@ public class frmStartup extends javax.swing.JFrame {
 
                 try {
                     //converting xml to object
-                    xstream.alias("scrabble", Scrabble.class);
-                    Scrabble scrabble = (Scrabble)xstream.fromXML(FileUtils.readFileToString(f, Charset.defaultCharset()));
-                    Casilla c = new Casilla();
-                    c.setX(10);
-                    c.setY(29);
-                    String s = xstream.toXML(c);
                     
-                    System.out.println("dimension scrabble = " + s+"00"+scrabble.getDimension());
+                    //xstream.alias("scrabble", Scrabble.class);
+                    xstream.processAnnotations(Scrabble.class);
+                    scrabble = (Scrabble)xstream.fromXML(FileUtils.readFileToString(f, Charset.defaultCharset()));
+                    
+                    
+                    //TODO: abrir el siguiente JFrame
                     
                     
                 } catch (IOException ex) {

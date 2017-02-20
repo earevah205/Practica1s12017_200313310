@@ -5,12 +5,19 @@
  */
 package scrabble.models;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 /**
  *
  * @author estuardoarevalo
  */
+@XStreamAlias("casilla")
 public class Casilla {
+    
+    @XStreamAlias("x")
     private int x;
+    
+    @XStreamAlias("y")
     private int y;
 
     /**

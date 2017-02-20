@@ -5,11 +5,18 @@
  */
 package scrabble.models;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+
 /**
  *
  * @author estuardoarevalo
  */
+
+@XStreamAlias("diccionario")
 public class Diccionario {
+    
+    @XStreamImplicit(itemFieldName="palabra")
     private String[] palabras;
 
     /**

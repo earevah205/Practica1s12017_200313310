@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scrabble.models;
+package scrabble.xml_models;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
@@ -12,24 +12,23 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
  *
  * @author estuardoarevalo
  */
-
-@XStreamAlias("diccionario")
-public class Diccionario {
+@XStreamAlias("dobles")
+public class Doble {
     
-    @XStreamImplicit(itemFieldName="palabra")
-    private String[] palabras;
+    @XStreamImplicit(itemFieldName="casilla")
+    private Casilla[] casillas;
 
     /**
-     * @return the palabras
+     * @return the casillas
      */
-    public String[] getPalabras() {
-        return palabras;
+    public Casilla[] getCasillas() {
+        return casillas;
     }
 
     /**
-     * @param palabras the palabras to set
+     * @param casillas the casillas to set
      */
-    public void setPalabras(String[] palabras) {
-        this.palabras = palabras;
+    public void setCasillas(Casilla[] casillas) {
+        this.casillas = casillas;
     }
 }

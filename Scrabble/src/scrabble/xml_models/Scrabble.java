@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scrabble.models;
+package scrabble.xml_models;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

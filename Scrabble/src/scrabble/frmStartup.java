@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import scrabble.models.Casilla;
-import scrabble.models.Scrabble;
+import scrabble.xml_models.Casilla;
+import scrabble.xml_models.Scrabble;
 
 /**
  *
@@ -180,6 +180,8 @@ public class frmStartup extends javax.swing.JFrame {
                     xstream.processAnnotations(Scrabble.class);
                     scrabble = (Scrabble)xstream.fromXML(FileUtils.readFileToString(f, Charset.defaultCharset()));
                     
+                    //TODO: Crear la matriz del tablero
+                    //TODO: Crear la lista de fichas
                     
                     //TODO: abrir el siguiente JFrame
                     

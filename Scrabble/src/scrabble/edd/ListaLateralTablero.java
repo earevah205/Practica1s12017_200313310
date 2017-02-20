@@ -35,16 +35,16 @@ public class ListaLateralTablero {
     
     private void insertarAlInicio(NodoLateralTablero nuevo){
         
-        nuevo.setArriba(nodoInicio);
-        nodoInicio.setAbajo(nuevo);
+        nuevo.setAbajo(nodoInicio);
+        nodoInicio.setArriba(nuevo);
         nodoInicio = nuevo;
 
     }
     
     private void insertarAlFinal(NodoLateralTablero nuevo){
         
-        nodoFin.setArriba(nuevo);
-        nuevo.setAbajo(nodoFin);
+        nodoFin.setAbajo(nuevo);
+        nuevo.setArriba(nodoFin);
         nodoFin = nuevo;
        
     }

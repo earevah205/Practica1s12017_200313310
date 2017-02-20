@@ -13,6 +13,7 @@ public class NodoLateralTablero {
     private NodoLateralTablero arriba;
     private NodoLateralTablero abajo;
     private NodoTablero nodoInicioTablero;
+    private NodoTablero nodoFinTablero;
     private int posicionY;
 
     /**
@@ -69,5 +70,19 @@ public class NodoLateralTablero {
      */
     public void setNodoInicioTablero(NodoTablero nodoInicioTablero) {
         this.nodoInicioTablero = nodoInicioTablero;
+    }
+
+    /**
+     * @return the nodoFinTablero
+     */
+    public NodoTablero getNodoFinTablero() {
+        return nodoFinTablero;
+    }
+
+    /**
+     * @param nodoFinTablero the nodoFinTablero to set
+     */
+    public void setNodoFinTablero(NodoTablero nodoFinTablero) {
+        this.nodoFinTablero = nodoFinTablero;
     }
 }

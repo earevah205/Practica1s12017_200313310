@@ -16,6 +16,8 @@ public class NodoTablero {
     private NodoTablero abajo;
     private NodoTablero izquierda;
     private NodoTablero derecha;
+    private NodoCabeceraTablero cabecera;
+    private NodoLateralTablero lateral;
     private Ficha ficha;
     private int multiplicador = 1;
 
@@ -101,5 +103,33 @@ public class NodoTablero {
      */
     public void setFicha(Ficha ficha) {
         this.ficha = ficha;
+    }
+
+    /**
+     * @return the cabecera
+     */
+    public NodoCabeceraTablero getCabecera() {
+        return cabecera;
+    }
+
+    /**
+     * @param cabecera the cabecera to set
+     */
+    public void setCabecera(NodoCabeceraTablero cabecera) {
+        this.cabecera = cabecera;
+    }
+
+    /**
+     * @return the lateral
+     */
+    public NodoLateralTablero getLateral() {
+        return lateral;
+    }
+
+    /**
+     * @param lateral the lateral to set
+     */
+    public void setLateral(NodoLateralTablero lateral) {
+        this.lateral = lateral;
     }
 }

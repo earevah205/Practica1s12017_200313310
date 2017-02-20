@@ -46,7 +46,17 @@ public class frmScrabbleGame extends javax.swing.JFrame {
         }
         
         
-        
+        //llenar el tablero
+        for (int x=0; x<scrabble.getDimension(); x++){
+            for (int y=0; y<scrabble.getDimension(); y++){
+                int multiplicador = 1;
+                
+                if (scrabble.getDobles().existe(x, y)) multiplicador = 2;
+                if (scrabble.getTriples().existe(x, y)) multiplicador = 3;
+                
+                tablero.insertar(x, y, multiplicador);
+            }
+        }
         
     }
 

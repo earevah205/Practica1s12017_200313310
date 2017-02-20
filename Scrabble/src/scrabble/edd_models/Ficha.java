@@ -11,7 +11,7 @@ package scrabble.edd_models;
  */
 public class Ficha {
     private String letra;
-
+    private int puntos;
     /**
      * @return the letra
      */
@@ -24,5 +24,19 @@ public class Ficha {
      */
     public void setLetra(String letra) {
         this.letra = letra;
+    }
+
+    /**
+     * @return the puntos
+     */
+    public int getPuntos() {
+        return puntos;
+    }
+
+    /**
+     * @param puntos the puntos to set
+     */
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
     }
 }

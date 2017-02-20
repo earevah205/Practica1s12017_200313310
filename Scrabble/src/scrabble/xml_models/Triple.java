@@ -19,6 +19,16 @@ public class Triple {
     @XStreamImplicit(itemFieldName="casilla")
     private Casilla[] casillas;
 
+    public boolean existe(int x, int y) {
+	if (casillas!=null){
+            for(Casilla c: casillas){
+                    if((c.getX()==x)&&(c.getY()==y))
+                            return true;
+            }
+        }
+	return false;
+    }
+    
     /**
      * @return the casillas
      */

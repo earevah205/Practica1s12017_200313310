@@ -20,10 +20,13 @@ public class Jugador {
         nombre = _nombre;
     }
 
+    public ListaFichasJugador getFichas(){
+        return fichas;
+    }
     
     public void agregarFicha(Ficha _ficha){
         fichas.agregarAlFinal(_ficha);
-    }
+    }  
     
     public void quitarFicha(Ficha _ficha){
         fichas.eliminarFicha(_ficha);

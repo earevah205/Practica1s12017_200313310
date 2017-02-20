@@ -29,6 +29,7 @@ public class frmScrabbleGame extends javax.swing.JFrame {
     private Tablero tablero = new Tablero();
     private ColaDeFichas colaDeFichas = new ColaDeFichas();
     private ListaCircularJugadores listaJugadores = new ListaCircularJugadores();
+    private Jugador jugadorActual;
     
     /**
      * Creates new form frmScrabbleGame
@@ -148,8 +149,23 @@ public class frmScrabbleGame extends javax.swing.JFrame {
         //Agregar los jugadores a la Lista Circular
         for (int i = 0; i < parent.getJugadores().size(); i++){
             Jugador jugador = new Jugador(parent.getJugadores().get(i).toString());
+            
+            //Repartir 7 Fichas
+            for (int j = 1; j <= 7; j++){
+                jugador.agregarFicha(colaDeFichas.desencolar());
+            }
+            
             listaJugadores.Insertar(jugador);
         }
+        
+        
+        
+        //Mostrar la fichas del jugador actual
+        jugadorActual = listaJugadores.getNodoActual().getJugador();
+        
+        
+        Ficha tmpFicha = jugadorActual.getFichas().getInicio().getFicha();
+        
         
         System.out.println("La cantidad de jugadores en la cola es de = " + parent.getJugadores().size());
         System.out.println("Fin de Carga");
@@ -165,17 +181,64 @@ public class frmScrabbleGame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblFicha2 = new javax.swing.JLabel();
+        lblFicha1 = new javax.swing.JLabel();
+        lblFicha3 = new javax.swing.JLabel();
+        lblFicha4 = new javax.swing.JLabel();
+        lblFicha5 = new javax.swing.JLabel();
+        lblFicha6 = new javax.swing.JLabel();
+        lblFicha7 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lblFicha2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
+
+        lblFicha1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
+
+        lblFicha3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
+
+        lblFicha4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
+
+        lblFicha5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
+
+        lblFicha6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
+
+        lblFicha7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(lblFicha1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFicha2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFicha3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFicha4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFicha5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFicha6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFicha7)
+                .addContainerGap(340, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(446, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblFicha7)
+                    .addComponent(lblFicha6)
+                    .addComponent(lblFicha5)
+                    .addComponent(lblFicha1)
+                    .addComponent(lblFicha4)
+                    .addComponent(lblFicha3)
+                    .addComponent(lblFicha2))
+                .addGap(25, 25, 25))
         );
 
         pack();
@@ -183,5 +246,12 @@ public class frmScrabbleGame extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lblFicha1;
+    private javax.swing.JLabel lblFicha2;
+    private javax.swing.JLabel lblFicha3;
+    private javax.swing.JLabel lblFicha4;
+    private javax.swing.JLabel lblFicha5;
+    private javax.swing.JLabel lblFicha6;
+    private javax.swing.JLabel lblFicha7;
     // End of variables declaration//GEN-END:variables
 }

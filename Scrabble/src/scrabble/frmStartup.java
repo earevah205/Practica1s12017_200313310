@@ -87,6 +87,7 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/scrabble-logo.png"))); // NOI18N
 
+        lblMainTitle.setForeground(java.awt.Color.yellow);
         lblMainTitle.setText("Seleccione una Archivo de Configuración");
 
         btnOpenFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/files-folder.png"))); // NOI18N
@@ -98,9 +99,12 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
             }
         });
 
+        lblFilePath.setForeground(java.awt.Color.yellow);
         lblFilePath.setText("Archivo:");
 
-        txtContinue.setText("CONTINUAR");
+        txtContinue.setFont(new java.awt.Font("Ubuntu", 1, 13)); // NOI18N
+        txtContinue.setForeground(java.awt.Color.green);
+        txtContinue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Continuar.png"))); // NOI18N
         txtContinue.setBorderPainted(false);
         txtContinue.setContentAreaFilled(false);
         txtContinue.addActionListener(new java.awt.event.ActionListener() {
@@ -112,8 +116,8 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
         jScrollPane1.setViewportView(listJugadores);
 
         btnAgregarJugador.setText("Agregar Jugador");
-        btnAgregarJugador.setBorderPainted(false);
         btnAgregarJugador.setContentAreaFilled(false);
+        btnAgregarJugador.setOpaque(true);
         btnAgregarJugador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarJugadorActionPerformed(evt);
@@ -121,8 +125,8 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
         });
 
         btnQuitarJugador.setText("Quitar Jugador");
-        btnQuitarJugador.setBorderPainted(false);
         btnQuitarJugador.setContentAreaFilled(false);
+        btnQuitarJugador.setOpaque(true);
         btnQuitarJugador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnQuitarJugadorActionPerformed(evt);
@@ -181,7 +185,7 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                         .addComponent(txtContinue))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAgregarJugador)

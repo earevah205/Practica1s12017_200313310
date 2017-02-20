@@ -12,13 +12,34 @@ package scrabble.edd;
  */
 public class Tablero {
     
+    ListaCabeceraTablero listaCabecera = new ListaCabeceraTablero();
+    ListaLateralTablero listaLateral = new ListaLateralTablero();
     
-    
-    public void crearTablero(int dimension){
+    public NodoTablero insertar(int x, int y, int multiplicador){
+        NodoTablero nuevo = new NodoTablero();
+        nuevo.setMultiplicador(multiplicador);
         
-        //creamos un tablero cuadrado con todos los nodos vacios
+        NodoCabeceraTablero cabecera = listaCabecera.buscar(x);
+        if (cabecera==null) cabecera = listaCabecera.insertar(x);
+        
+        NodoLateralTablero lateral = listaLateral.buscar(y);
+        if (lateral==null) lateral = listaLateral.insertar(y);
+        
+        //si la cabecera aún no tiene el inicio del tablero
+        //es porque esta vacio
+        if (cabecera.getNodoInicioTablero()==null) 
+            cabecera.setNodoInicioTablero(nuevo);
+        
+        //si la cabecera aún no tiene el inicio del tablero
+        //es porque esta vacio
+        if (lateral.getNodoInicioTablero()==null) 
+            lateral.setNodoInicioTablero(nuevo);
         
         
+        //ahora con la cabecera y con lateral vamos a movernos
+        
+        
+        return nuevo;
     }
     
     //public NodoTablero agregarNodo(int x, int y){

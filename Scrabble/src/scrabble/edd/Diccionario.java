@@ -49,8 +49,8 @@ public class Diccionario {
         
         NodoDiccionario temp = nodoInicio;
         NodoDiccionario anterior = null;
-        //recorremos la lista
         
+        //recorremos la lista
         while (temp != null){
             
             // si el nodo contiene la palabra que estamos buscando

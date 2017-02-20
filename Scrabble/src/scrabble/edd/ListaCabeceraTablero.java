@@ -14,10 +14,8 @@ import scrabble.edd.NodoCabeceraTablero;
 public class ListaCabeceraTablero {
     private NodoCabeceraTablero nodoInicio;
     private NodoCabeceraTablero nodoFin;
-    private NodoTablero nodoInicioTablero;
 
-    
-    public void insertar(int posicionX) {
+    public NodoCabeceraTablero insertar(int posicionX) {
         
         NodoCabeceraTablero nuevo = new NodoCabeceraTablero();
         nuevo.setPosicionX(posicionX);
@@ -30,29 +28,55 @@ public class ListaCabeceraTablero {
             } else if (posicionX > nodoFin.getPosicionX()) {
                 insertarAlFinal(nuevo);
             } else {
-                //insertarAlMedio(nuevo);
+                insertarAlMedio(nuevo);
             }
         }
+        
+        return nuevo;
     }
     
-    public NodoCabeceraTablero insertarAlInicio(NodoCabeceraTablero nuevo){
+    private void insertarAlInicio(NodoCabeceraTablero nuevo){
         
         nuevo.setDerecha(nodoInicio);
         nodoInicio.setIzquierda(nuevo);
         nodoInicio = nuevo;
 
-        return nuevo;
     }
     
-    public NodoCabeceraTablero insertarAlFinal(NodoCabeceraTablero nuevo){
+    private void insertarAlFinal(NodoCabeceraTablero nuevo){
         
         nodoFin.setDerecha(nuevo);
         nuevo.setIzquierda(nodoFin);
         nodoFin = nuevo;
-        
-        return nuevo;
+       
     }
     
+    private void insertarAlMedio(NodoCabeceraTablero nuevo){
+        
+        NodoCabeceraTablero temp = nodoInicio;
+        
+        while (temp.getPosicionX() < nuevo.getPosicionX()) {
+            temp = temp.getDerecha();
+        }
+        
+        NodoCabeceraTablero temp2 = temp.getIzquierda();
+        temp2.setDerecha(nuevo);
+        nuevo.setDerecha(temp);
+        nuevo.setIzquierda(temp2);
+        temp.setIzquierda(nuevo);
+        
+    }
+    
+    public NodoCabeceraTablero buscar(int positionX) { 
+        
+        NodoCabeceraTablero nodo = nodoInicio;
+        while (nodo != null) {
+            if (nodo.getPosicionX() == positionX) return nodo;
+            nodo = nodo.getDerecha();
+        }
+        
+        return null;
+    }
     
     /**
      * @return the nodoInicio
@@ -81,5 +105,6 @@ public class ListaCabeceraTablero {
     public void setNodoFin(NodoCabeceraTablero nodoFin) {
         this.nodoFin = nodoFin;
     }
+
     
 }

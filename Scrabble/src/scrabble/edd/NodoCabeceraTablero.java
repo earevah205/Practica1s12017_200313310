@@ -12,6 +12,7 @@ package scrabble.edd;
 public class NodoCabeceraTablero {
     private NodoCabeceraTablero izquierda;
     private NodoCabeceraTablero derecha;
+    private NodoTablero nodoInicioTablero;
     private int posicionX;
 
     /**
@@ -54,6 +55,20 @@ public class NodoCabeceraTablero {
      */
     public void setPosicionX(int posicionX) {
         this.posicionX = posicionX;
+    }
+
+    /**
+     * @return the nodoInicioTablero
+     */
+    public NodoTablero getNodoInicioTablero() {
+        return nodoInicioTablero;
+    }
+
+    /**
+     * @param nodoInicioTablero the nodoInicioTablero to set
+     */
+    public void setNodoInicioTablero(NodoTablero nodoInicioTablero) {
+        this.nodoInicioTablero = nodoInicioTablero;
     }
 
 }

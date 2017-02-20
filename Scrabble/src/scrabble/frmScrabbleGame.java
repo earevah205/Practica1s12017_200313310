@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JFrame;
 import scrabble.edd.ColaDeFichas;
-import scrabble.edd.Diccionario;
+import scrabble.edd.ListaDiccionario;
+import scrabble.edd.ListaCircularJugadores;
 import scrabble.edd.Tablero;
 import scrabble.edd_models.Ficha;
+import scrabble.edd_models.Jugador;
 import scrabble.edd_models.Letra;
 import scrabble.xml_models.Scrabble;
 
@@ -23,9 +25,10 @@ import scrabble.xml_models.Scrabble;
 public class frmScrabbleGame extends javax.swing.JFrame {
 
     private Scrabble scrabble;
-    private Diccionario diccionario = new Diccionario();
+    private ListaDiccionario diccionario = new ListaDiccionario();
     private Tablero tablero = new Tablero();
     private ColaDeFichas colaDeFichas = new ColaDeFichas();
+    private ListaCircularJugadores listaJugadores = new ListaCircularJugadores();
     
     /**
      * Creates new form frmScrabbleGame
@@ -45,13 +48,20 @@ public class frmScrabbleGame extends javax.swing.JFrame {
         
         scrabble = _scrabble;
         
-        //inicializar el Diccionario de Palabras
+        //----------------------------------------------------------------
+        //Lista Simple para el ListaDiccionario de Palabras
+        //
+        //inicializar el ListaDiccionario de Palabras
         String[] palabras_from_xml = scrabble.getDiccionario().getPalabras();
         for(int i = 0; i < palabras_from_xml.length; i++){
             diccionario.agregarAlInicio(palabras_from_xml[i]);
         }
+        //----------------------------------------------------------------
         
         
+        //----------------------------------------------------------------
+        //Matriz ortogo
+        //
         //llenar el tablero
         for (int x=0; x<scrabble.getDimension(); x++){
             for (int y=0; y<scrabble.getDimension(); y++){
@@ -63,7 +73,10 @@ public class frmScrabbleGame extends javax.swing.JFrame {
                 tablero.insertar(x, y, multiplicador);
             }
         }
+        //----------------------------------------------------------------
         
+        
+        //----------------------------------------------------------------
         //creación de la fichas segun el enunciado
         //se utiliza una ArrayList solo con la finalidad de tener la cantidad 
         //total de fichas y su punteo, esto luego se distribuye de forma
@@ -128,8 +141,17 @@ public class frmScrabbleGame extends javax.swing.JFrame {
                 
             }
         }
+        //----------------------------------------------------------------
         
-        System.out.println("La cantidad de fichas en la cola es de = " + colaDeFichas.getTamano());
+        
+        //----------------------------------------------------------------
+        //Agregar los jugadores a la Lista Circular
+        for (int i = 0; i < parent.getJugadores().size(); i++){
+            Jugador jugador = new Jugador(parent.getJugadores().get(i).toString());
+            listaJugadores.Insertar(jugador);
+        }
+        
+        System.out.println("La cantidad de jugadores en la cola es de = " + parent.getJugadores().size());
         System.out.println("Fin de Carga");
         
     }

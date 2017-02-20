@@ -11,7 +11,7 @@ import scrabble.edd_models.Palabra;
  *
  * @author estuardoarevalo
  */
-public class Diccionario {
+public class ListaDiccionario {
     private NodoDiccionario nodoInicio;
     private NodoDiccionario nodoFin;
     

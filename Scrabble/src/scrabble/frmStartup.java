@@ -12,8 +12,10 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -30,6 +32,9 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
     private Scrabble scrabble;
     private frmScrabbleGame frmGame;
     
+    //solo se utiliza para poder desplegar los jugadores en el jList
+    private DefaultListModel jugadores = new DefaultListModel();
+    
     /**
      * Creates new form frmStartup
      */
@@ -41,8 +46,18 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
         //color de fondo
         this.getContentPane().setBackground(new Color(191, 30, 45));
         //colocar en el centro de la pantalla
-        setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
+        //lista de jugadores
+        listJugadores.setModel(jugadores);
+        //deshabilitar el botón de quitar jugador porque la lista esta vacia
+        //inicialmente
+        btnQuitarJugador.setEnabled(false);
         //----------------------------------------------------------------
+        
+    }
+    
+    public DefaultListModel getJugadores(){
+        return jugadores;
     }
 
     /**
@@ -60,6 +75,10 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
         txtFilePath = new javax.swing.JTextField();
         lblFilePath = new javax.swing.JLabel();
         txtContinue = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listJugadores = new javax.swing.JList<>();
+        btnAgregarJugador = new javax.swing.JButton();
+        btnQuitarJugador = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Scrabble - 200313310 - EDD - USAC");
@@ -84,10 +103,29 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
         txtContinue.setText("CONTINUAR");
         txtContinue.setBorderPainted(false);
         txtContinue.setContentAreaFilled(false);
-        txtContinue.setOpaque(true);
         txtContinue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtContinueActionPerformed(evt);
+            }
+        });
+
+        jScrollPane1.setViewportView(listJugadores);
+
+        btnAgregarJugador.setText("Agregar Jugador");
+        btnAgregarJugador.setBorderPainted(false);
+        btnAgregarJugador.setContentAreaFilled(false);
+        btnAgregarJugador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarJugadorActionPerformed(evt);
+            }
+        });
+
+        btnQuitarJugador.setText("Quitar Jugador");
+        btnQuitarJugador.setBorderPainted(false);
+        btnQuitarJugador.setContentAreaFilled(false);
+        btnQuitarJugador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarJugadorActionPerformed(evt);
             }
         });
 
@@ -96,8 +134,11 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtContinue))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(97, 97, 97)
@@ -107,15 +148,20 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
                                 .addComponent(lblMainTitle))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(43, 43, 43)
-                                .addComponent(lblFilePath)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(btnAgregarJugador)
+                                            .addComponent(btnQuitarJugador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblFilePath)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnOpenFile, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 67, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(txtContinue)))
+                        .addGap(0, 61, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -131,8 +177,17 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblFilePath)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(txtContinue))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addComponent(txtContinue))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAgregarJugador)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnQuitarJugador)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
@@ -183,13 +238,17 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
                     xstream.processAnnotations(Scrabble.class);
                     scrabble = (Scrabble)xstream.fromXML(FileUtils.readFileToString(f, Charset.defaultCharset()));
                     
-                    
-                    //abrir el juego
-                    this.setVisible(false);
-                    frmGame = new frmScrabbleGame(this,scrabble);
-                    frmGame.setVisible(true);
-                    frmGame.addWindowListener(this);
-                    
+                    //revisamos que exista al menos un jugador
+                    if (jugadores.size()>0){
+                        //abrir el juego
+                        this.setVisible(false);
+                        frmGame = new frmScrabbleGame(this,scrabble);
+                        frmGame.setVisible(true);
+                        frmGame.addWindowListener(this);
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Ingresa al menos un jugador", "Error", JOptionPane.ERROR_MESSAGE);
+                        return; 
+                    }
                     
                 } catch (IOException ex) {
                     Logger.getLogger(frmStartup.class.getName()).log(Level.SEVERE, null, ex);
@@ -210,6 +269,56 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
         
         
     }//GEN-LAST:event_txtContinueActionPerformed
+
+    private void btnAgregarJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarJugadorActionPerformed
+
+        String s = (String)JOptionPane.showInputDialog(
+                                        this.getContentPane(),
+                                        "Nombre: ",
+                                        "Agregar Jugador",
+                                        JOptionPane.PLAIN_MESSAGE,
+                                        null,
+                                        null,
+                                        "");
+ 
+        //If a string was returned, say so.
+        if ((s != null) && (s.length() > 0)) {
+            jugadores.addElement(s);
+            if (jugadores.size()>0) btnQuitarJugador.setEnabled(true);
+            return;
+        }
+        
+    }//GEN-LAST:event_btnAgregarJugadorActionPerformed
+
+    private void btnQuitarJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarJugadorActionPerformed
+        
+        int index = listJugadores.getSelectedIndex();
+
+        if (index == -1) {
+            index = 0;
+            listJugadores.setSelectedIndex(index);
+            listJugadores.ensureIndexIsVisible(index);
+        }
+        
+        jugadores.remove(index);
+
+        int size = jugadores.getSize();
+
+        if (size == 0) { //Nobody's left, disable firing.
+            btnQuitarJugador.setEnabled(false);
+
+        } else { //Select an index.
+            if (index == jugadores.getSize()) {
+                //removed item in last position
+                index--;
+            }
+
+            listJugadores.setSelectedIndex(index);
+            listJugadores.ensureIndexIsVisible(index);
+        }
+    
+        
+    }//GEN-LAST:event_btnQuitarJugadorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -247,10 +356,14 @@ public class frmStartup extends javax.swing.JFrame implements WindowListener  {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarJugador;
     private javax.swing.JButton btnOpenFile;
+    private javax.swing.JButton btnQuitarJugador;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFilePath;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblMainTitle;
+    private javax.swing.JList<String> listJugadores;
     private javax.swing.JButton txtContinue;
     private javax.swing.JTextField txtFilePath;
     // End of variables declaration//GEN-END:variables

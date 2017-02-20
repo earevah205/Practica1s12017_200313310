@@ -7,6 +7,8 @@ package scrabble;
 
 import com.thoughtworks.xstream.XStream;
 import java.awt.Color;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -17,16 +19,16 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import scrabble.xml_models.Casilla;
 import scrabble.xml_models.Scrabble;
 
 /**
  *
  * @author estuardoarevalo
  */
-public class frmStartup extends javax.swing.JFrame {
+public class frmStartup extends javax.swing.JFrame implements WindowListener  {
 
     private Scrabble scrabble;
+    private frmScrabbleGame frmGame;
     
     /**
      * Creates new form frmStartup
@@ -124,10 +126,11 @@ public class frmStartup extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(lblMainTitle)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnOpenFile)
-                    .addComponent(txtFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFilePath))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnOpenFile, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblFilePath)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(txtContinue))
         );
@@ -180,10 +183,12 @@ public class frmStartup extends javax.swing.JFrame {
                     xstream.processAnnotations(Scrabble.class);
                     scrabble = (Scrabble)xstream.fromXML(FileUtils.readFileToString(f, Charset.defaultCharset()));
                     
-                    //TODO: Crear la matriz del tablero
-                    //TODO: Crear la lista de fichas
                     
-                    //TODO: abrir el siguiente JFrame
+                    //abrir el juego
+                    this.setVisible(false);
+                    frmGame = new frmScrabbleGame(this,scrabble);
+                    frmGame.setVisible(true);
+                    frmGame.addWindowListener(this);
                     
                     
                 } catch (IOException ex) {
@@ -249,4 +254,45 @@ public class frmStartup extends javax.swing.JFrame {
     private javax.swing.JButton txtContinue;
     private javax.swing.JTextField txtFilePath;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        
+        if (e.getSource() == frmGame) {
+             this.setVisible(true);
+             frmGame.dispose();
+        }
+        
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

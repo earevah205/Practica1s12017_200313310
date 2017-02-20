@@ -5,25 +5,38 @@
  */
 package scrabble;
 
-import java.util.Iterator;
+import java.awt.Color;
+import javax.swing.JFrame;
 import scrabble.edd.Diccionario;
+import scrabble.edd.Tablero;
 import scrabble.xml_models.Scrabble;
 
 /**
  *
  * @author estuardoarevalo
  */
-public class frmGame extends javax.swing.JPanel {
+public class frmScrabbleGame extends javax.swing.JFrame {
 
     private Scrabble scrabble;
     private Diccionario diccionario = new Diccionario();
-    
+    private Tablero tablero = new Tablero();
     
     /**
-     * Creates new form frmGame
+     * Creates new form frmScrabbleGame
      */
-    public frmGame(Scrabble _scrabble) {
+    public frmScrabbleGame(frmStartup parent, Scrabble _scrabble) {
         initComponents();
+        //----------------------------------------------------------------
+        // Inicializando el JFrame
+        //color de fondo
+        this.getContentPane().setBackground(new Color(191, 30, 45));
+        //colocar en el centro de la pantalla
+        this.setLocationRelativeTo(null);
+        //que no ocurra nada cuando lo cierran pues esto lo maneja frmStartup
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        
+        //----------------------------------------------------------------
+        
         scrabble = _scrabble;
         
         //inicializar el Diccionario de Palabras
@@ -31,6 +44,7 @@ public class frmGame extends javax.swing.JPanel {
         for(int i = 0; i < palabras_from_xml.length; i++){
             diccionario.agregarAlInicio(palabras_from_xml[i]);
         }
+        
         
         
         
@@ -45,38 +59,23 @@ public class frmGame extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("A");
-
-        jLabel1.setText("jLabel1");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(149, 149, 149)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(176, Short.MAX_VALUE))
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(101, 101, 101)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(39, 39, 39))
+            .addGap(0, 300, Short.MAX_VALUE)
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,4 +15,7 @@ public class Palabra {
     public Palabra(String _palabra){
         palabra = _palabra;
     }
+    public String get(){
+        return palabra;
+    }
 }

@@ -70,10 +70,12 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="lblMainTitle" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="btnOpenFile" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtFilePath" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblFilePath" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="txtFilePath" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblFilePath" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace pref="27" max="32767" attributes="0"/>
               <Component id="txtContinue" min="-2" max="-2" attributes="0"/>

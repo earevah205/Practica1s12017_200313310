@@ -6,12 +6,19 @@
 package scrabble;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import scrabble.edd.ColaDeFichas;
 import scrabble.edd.ListaDiccionario;
 import scrabble.edd.ListaCircularJugadores;
+import scrabble.edd.ListaFichasJugador;
+import scrabble.edd.NodoFicha;
 import scrabble.edd.Tablero;
 import scrabble.edd_models.Ficha;
 import scrabble.edd_models.Jugador;
@@ -22,8 +29,12 @@ import scrabble.xml_models.Scrabble;
  *
  * @author estuardoarevalo
  */
-public class frmScrabbleGame extends javax.swing.JFrame {
+public class frmScrabbleGame extends javax.swing.JFrame implements ComponentListener {
 
+    public static final int FICHAS_JUGADOR_OFFSET_X = 40;
+    public static final int FICHAS_JUGADOR_OFFSET_Y = -140;
+        
+    
     private Scrabble scrabble;
     private ListaDiccionario diccionario = new ListaDiccionario();
     private Tablero tablero = new Tablero();
@@ -31,11 +42,19 @@ public class frmScrabbleGame extends javax.swing.JFrame {
     private ListaCircularJugadores listaJugadores = new ListaCircularJugadores();
     private Jugador jugadorActual;
     
+    private frmStartup parent;
+    private ListenerDnD listenerDnD;
+ 
+    
     /**
      * Creates new form frmScrabbleGame
      */
-    public frmScrabbleGame(frmStartup parent, Scrabble _scrabble) {
+    public frmScrabbleGame(frmStartup _parent, Scrabble _scrabble) {
         initComponents();
+        
+        this.scrabble = _scrabble;
+        this.parent = _parent;
+        
         //----------------------------------------------------------------
         // Inicializando el JFrame
         //color de fondo
@@ -45,9 +64,19 @@ public class frmScrabbleGame extends javax.swing.JFrame {
         //que no ocurra nada cuando lo cierran pues esto lo maneja frmStartup
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
+        //maximizar
+        this.addComponentListener(this);
+        this.setExtendedState( this.getExtendedState()|JFrame.MAXIMIZED_BOTH );
+        this.setLayout(null);
+        this.panelTablero.setLayout(null);
+        
+        
+        listenerDnD = new ListenerDnD(this);
+        this.addMouseListener(listenerDnD);
+        this.addMouseMotionListener(listenerDnD);
+        
         //----------------------------------------------------------------
         
-        scrabble = _scrabble;
         
         //----------------------------------------------------------------
         //Lista Simple para el ListaDiccionario de Palabras
@@ -161,10 +190,9 @@ public class frmScrabbleGame extends javax.swing.JFrame {
         
         
         //Mostrar la fichas del jugador actual
-        jugadorActual = listaJugadores.getNodoActual().getJugador();
+        mostraFichasJugador();
+                
         
-        
-        Ficha tmpFicha = jugadorActual.getFichas().getInicio().getFicha();
         
         
         System.out.println("La cantidad de jugadores en la cola es de = " + parent.getJugadores().size());
@@ -172,6 +200,42 @@ public class frmScrabbleGame extends javax.swing.JFrame {
         
     }
 
+    
+    private void mostraFichasJugador( ){
+    
+        
+        jugadorActual = listaJugadores.getNodoActual().getJugador();
+        listenerDnD.setJugador(jugadorActual);
+    
+        Insets insets = panelTablero.getInsets();
+        
+        //Recorrer la lista de fichas
+        ListaFichasJugador fichasJugador = jugadorActual.getFichas();
+        NodoFicha nodo = fichasJugador.getInicio();
+        int numero = 0;
+        while (nodo!=null){
+            numero++;
+            Ficha ficha = nodo.getFicha();
+            JLabel lbl = new javax.swing.JLabel();
+            lbl.setIcon(ficha.getImageIcon());
+            Dimension size = new Dimension(32, 32);
+            lbl.setPreferredSize(size);
+            lbl.setBounds((FICHAS_JUGADOR_OFFSET_X * numero) + insets.left, this.getHeight() + FICHAS_JUGADOR_OFFSET_Y + insets.top,
+            size.width, size.height);
+            ficha.setLabel(lbl);
+            panelTablero.add(lbl);
+            
+            //movernos a la siguiente ficha
+            nodo = nodo.getSiguiente();
+        }       
+        
+        //this.getContentPane().revalidate();
+        //this.getContentPane().repaint();
+        //this.pack();
+        
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -181,64 +245,42 @@ public class frmScrabbleGame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblFicha2 = new javax.swing.JLabel();
-        lblFicha1 = new javax.swing.JLabel();
-        lblFicha3 = new javax.swing.JLabel();
-        lblFicha4 = new javax.swing.JLabel();
-        lblFicha5 = new javax.swing.JLabel();
-        lblFicha6 = new javax.swing.JLabel();
-        lblFicha7 = new javax.swing.JLabel();
+        panelTablero = new javax.swing.JPanel();
+        panelEstadistico = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblFicha2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
+        panelTablero.setOpaque(false);
+        panelTablero.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblFicha1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
-
-        lblFicha3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
-
-        lblFicha4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
-
-        lblFicha5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
-
-        lblFicha6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
-
-        lblFicha7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/scrabble/images/Z.png"))); // NOI18N
+        javax.swing.GroupLayout panelEstadisticoLayout = new javax.swing.GroupLayout(panelEstadistico);
+        panelEstadistico.setLayout(panelEstadisticoLayout);
+        panelEstadisticoLayout.setHorizontalGroup(
+            panelEstadisticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 482, Short.MAX_VALUE)
+        );
+        panelEstadisticoLayout.setVerticalGroup(
+            panelEstadisticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(lblFicha1)
+                .addComponent(panelTablero, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblFicha2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblFicha3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblFicha4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblFicha5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblFicha6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblFicha7)
-                .addContainerGap(340, Short.MAX_VALUE))
+                .addComponent(panelEstadistico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(446, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblFicha7)
-                    .addComponent(lblFicha6)
-                    .addComponent(lblFicha5)
-                    .addComponent(lblFicha1)
-                    .addComponent(lblFicha4)
-                    .addComponent(lblFicha3)
-                    .addComponent(lblFicha2))
-                .addGap(25, 25, 25))
+                    .addComponent(panelEstadistico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelTablero, javax.swing.GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -246,12 +288,31 @@ public class frmScrabbleGame extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblFicha1;
-    private javax.swing.JLabel lblFicha2;
-    private javax.swing.JLabel lblFicha3;
-    private javax.swing.JLabel lblFicha4;
-    private javax.swing.JLabel lblFicha5;
-    private javax.swing.JLabel lblFicha6;
-    private javax.swing.JLabel lblFicha7;
+    private javax.swing.JPanel panelEstadistico;
+    private javax.swing.JPanel panelTablero;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+        this.panelTablero.setBounds(0, 0, scrabble.getDimension()*40, this.getHeight());
+        
+        this.panelEstadistico.setBounds(scrabble.getDimension()*40+1,0,this.getWidth()-scrabble.getDimension()*40+1,this.getHeight());
+        this.panelEstadistico.setBackground(Color.white);
+        
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+        
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+        
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+        
+    }
 }

@@ -5,6 +5,7 @@
  */
 package scrabble.edd;
 
+import javax.swing.JLabel;
 import scrabble.edd_models.Ficha;
 
 /**
@@ -20,6 +21,12 @@ public class NodoTablero {
     private NodoLateralTablero lateral;
     private Ficha ficha;
     private int multiplicador = 1;
+    
+    /**
+     * Propiedades para manejo visual de las fichas
+     */
+    private JLabel label = new JLabel();
+    
 
     /**
      * @return the arriba
@@ -132,4 +139,19 @@ public class NodoTablero {
     public void setLateral(NodoLateralTablero lateral) {
         this.lateral = lateral;
     }
+    
+    /**
+     * @return the label
+     */
+    public JLabel getLabel() {
+        return label;
+    }
+
+    /**
+     * @param label the label to set
+     */
+    public void setLabel(JLabel label) {
+        this.label = label;
+    }
+    
 }

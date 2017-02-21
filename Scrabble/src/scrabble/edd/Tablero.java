@@ -15,6 +15,11 @@ public class Tablero {
     ListaCabeceraTablero listaCabecera = new ListaCabeceraTablero();
     ListaLateralTablero listaLateral = new ListaLateralTablero();
     
+    public ListaCabeceraTablero getListaCabecera(){
+        return listaCabecera;
+    }
+    
+    
     public NodoTablero insertar(int x, int y, int multiplicador){
         NodoTablero nuevo = new NodoTablero();
         nuevo.setMultiplicador(multiplicador);

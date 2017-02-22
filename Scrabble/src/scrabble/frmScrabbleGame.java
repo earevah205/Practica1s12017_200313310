@@ -316,11 +316,16 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
             Ficha ficha = nodo.getFicha();
             
             panelTablero.remove(ficha.getLabel());
+            panelTablero.repaint();
             
             //movernos a la siguiente ficha
             nodo = nodo.getSiguiente();
         }   
         
+        //mover al siguiente jugador
+        listaJugadores.moverAlSiguiente();
+        
+        mostrarFichasJugador( );
         
     }
     

@@ -95,7 +95,7 @@ public class ColaDeFichas {
         gv.decreaseDpi();   // 106 dpi
         String type = "gif";
         String repesentationType= "dot";
-        String imagePath = gv.getTempDir() + "/out"+gv.getImageDpi()+"."+ type;
+        String imagePath = gv.getTempDir() + "/cola"+gv.getImageDpi()+"."+ type;
 	File out = new File( imagePath );  
 	gv.writeGraphToFile( gv.getGraph(gv.getDotSource(), type, repesentationType), out );
         

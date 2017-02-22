@@ -113,8 +113,17 @@ public class ListenerDnD  implements MouseListener, MouseMotionListener {
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-        //this.dragPiece = null;
+    public void mouseReleased(MouseEvent evt) {
+        
+        //colocar la ficha sobre el tablero correctamente
+        int x = (evt.getPoint().x - (int)this.dragOffsetX) / frmScrabbleGame.FICHA_SIZE.width;
+        int y = (evt.getPoint().y - (int)this.dragOffsetY) / frmScrabbleGame.FICHA_SIZE.height;
+        
+        this.dragFicha.getLabel().setLocation(
+                    new Point(x*frmScrabbleGame.FICHA_SIZE.width,y*frmScrabbleGame.FICHA_SIZE.height));
+            this.frmGame.repaint();
+                
+        this.dragFicha = null;
     }
 
     @Override

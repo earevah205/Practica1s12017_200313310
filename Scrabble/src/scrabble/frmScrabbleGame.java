@@ -17,6 +17,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import scrabble.edd.ColaDeFichas;
 import scrabble.edd.ListaCabeceraTablero;
 import scrabble.edd.ListaDiccionario;
@@ -259,6 +260,8 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         
         jugadorActual = listaJugadores.getNodoActual().getJugador();
         listenerDnD.setJugador(jugadorActual);
+        
+        lblNombreJugador.setText(jugadorActual.getNombre());
     
         Insets insets = panelTablero.getInsets();
             
@@ -300,7 +303,26 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         
     }
     
-    
+    private void siguienteJugador(){
+        
+        //remover las fichas del jugador actual
+        
+        //Recorrer la lista de fichas y quitarlas una a una
+        ListaFichasJugador fichasJugador = jugadorActual.getFichas();
+        NodoFicha nodo = fichasJugador.getInicio();
+        int numero = 0;
+        while (nodo!=null){
+            numero++;
+            Ficha ficha = nodo.getFicha();
+            
+            panelTablero.remove(ficha.getLabel());
+            
+            //movernos a la siguiente ficha
+            nodo = nodo.getSiguiente();
+        }   
+        
+        
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -319,6 +341,18 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         btnColaDeFichas = new javax.swing.JButton();
         btnListaPalabras = new javax.swing.JButton();
         btnListaFichasActivas = new javax.swing.JButton();
+        btnMatrizTablero = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        btnAgregarPalabra = new javax.swing.JButton();
+        txtAgregarPalabra = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        lblNombreJugador = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        btnSiguienteJugador = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -355,6 +389,13 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
             }
         });
 
+        btnMatrizTablero.setText("Ver Matriz del Tablero");
+        btnMatrizTablero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMatrizTableroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -367,28 +408,133 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnColaDeFichas)
+                            .addComponent(btnListaPalabras)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnListaJugadores)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnListaJugadores)
+                                    .addComponent(btnColaDeFichas))
                                 .addGap(18, 18, 18)
-                                .addComponent(btnListaFichasActivas))
-                            .addComponent(btnListaPalabras))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnMatrizTablero)
+                                    .addComponent(btnListaFichasActivas))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnListaJugadores)
-                    .addComponent(btnListaFichasActivas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnColaDeFichas)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnListaFichasActivas)
+                    .addComponent(btnListaJugadores))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnColaDeFichas)
+                    .addComponent(btnMatrizTablero))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnListaPalabras)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        jLabel1.setText("DICCIONARIO");
+
+        btnAgregarPalabra.setText("Agregar Palabra");
+        btnAgregarPalabra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarPalabraActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(txtAgregarPalabra)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAgregarPalabra)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregarPalabra)
+                    .addComponent(txtAgregarPalabra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+
+        jLabel2.setText("TURNO DEL JUGADOR");
+
+        lblNombreJugador.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(193, 193, 193)
+                        .addComponent(lblNombreJugador)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNombreJugador)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        jButton1.setText("Validar Tiro");
+
+        jButton2.setText("Cancelar Tiro");
+
+        btnSiguienteJugador.setText("Siguiente Jugador");
+        btnSiguienteJugador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteJugadorActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(btnSiguienteJugador)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(btnSiguienteJugador))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelEstadisticoLayout = new javax.swing.GroupLayout(panelEstadistico);
@@ -397,12 +543,22 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
             panelEstadisticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEstadisticoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelEstadisticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         panelEstadisticoLayout.setVerticalGroup(
             panelEstadisticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEstadisticoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -422,7 +578,7 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(panelEstadistico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelTablero, javax.swing.GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE))
+                    .addComponent(panelTablero, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -461,16 +617,58 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         mostrarPanelGraphviz(imagePath);
     }//GEN-LAST:event_btnListaFichasActivasActionPerformed
 
+    private void btnAgregarPalabraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPalabraActionPerformed
+        
+        if (txtAgregarPalabra.getText().compareTo("")!=0){
+            
+            if (txtAgregarPalabra.getText().indexOf(" ")<0){
+                diccionario.agregarAlFinal(txtAgregarPalabra.getText());
+                txtAgregarPalabra.setText("");
+                JOptionPane.showMessageDialog(this, "Se agregó la palabra al diccionario exitosamente.", "Adición Correcta", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "No puedes agregar mas de 1 palabra al mismo tiempo.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Por favor escribe una palabra.", "Error", JOptionPane.ERROR_MESSAGE);
+                    
+        }
+        
+        
+    }//GEN-LAST:event_btnAgregarPalabraActionPerformed
+
+    private void btnMatrizTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMatrizTableroActionPerformed
+        //creamos el objeto graphviz
+        String imagePath = tablero.crearImagenGraphviz(scrabble.getDimension());
+        System.out.println(imagePath);
+        mostrarPanelGraphviz(imagePath);
+    }//GEN-LAST:event_btnMatrizTableroActionPerformed
+
+    private void btnSiguienteJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteJugadorActionPerformed
+        siguienteJugador();
+    }//GEN-LAST:event_btnSiguienteJugadorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarPalabra;
     private javax.swing.JButton btnColaDeFichas;
     private javax.swing.JButton btnListaFichasActivas;
     private javax.swing.JButton btnListaJugadores;
     private javax.swing.JButton btnListaPalabras;
+    private javax.swing.JButton btnMatrizTablero;
+    private javax.swing.JButton btnSiguienteJugador;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel lblNombreJugador;
     private javax.swing.JPanel panelEstadistico;
     private javax.swing.JPanel panelTablero;
+    private javax.swing.JTextField txtAgregarPalabra;
     // End of variables declaration//GEN-END:variables
 
     @Override

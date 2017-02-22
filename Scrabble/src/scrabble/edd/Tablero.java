@@ -5,6 +5,9 @@
  */
 package scrabble.edd;
 
+import com.github.jabbalaci.graphviz.GraphViz;
+import java.io.File;
+
 /**
  *
  * @author estuardoarevalo
@@ -130,6 +133,81 @@ public class Tablero {
         nuevo.setDerecha(temp);
         nuevo.setIzquierda(temp2);
         temp.setIzquierda(nuevo);
+        
+    }
+    
+    public NodoTablero obtenerNodo(int x, int y){
+        
+        NodoTablero nodoResultante = null;
+        
+        if (listaCabecera.buscar(x)!=null){
+            
+            NodoTablero nodo = listaCabecera.buscar(x).getNodoInicioTablero();
+            
+            while (nodo!=null){
+                
+                if (nodo.getLateral().getPosicionY()==y){
+                    nodoResultante = nodo;
+                    nodo = null;
+                }else{
+                    nodo = nodo.getAbajo();
+                }
+            }
+            
+            
+        }
+        
+        if (nodoResultante!=null) return nodoResultante;
+        
+        return null;
+    }
+    
+    public String crearImagenGraphviz(int dimensiones){
+        
+        
+        GraphViz gv = new GraphViz();
+        gv.addln(gv.start_graph());
+        
+        //b [shape=record label="{1|4|7}|{2|500|8}|{3|6|9}"];
+        
+        String s = "b [shape=record label=\"";
+        
+        for (int x=0; x<dimensiones; x++){
+            s += "{";
+            boolean first = true;
+            for (int y=0; y<dimensiones; y++){
+                
+                if (!first) s += "|";
+                    
+                NodoTablero nodo = obtenerNodo(x,y);
+                if (nodo.getFicha()==null){
+                    s += "0";
+                }else{
+                    s += nodo.getFicha().getLetra();
+                }
+                
+                first = false;
+                
+            }
+            s += "}";
+        }
+        
+        s += "\"];";
+        
+        gv.addln(s);
+        
+         
+        gv.addln(gv.end_graph());
+	        
+        System.out.println(gv.getDotSource());
+        gv.decreaseDpi();   // 106 dpi
+        String type = "gif";
+        String repesentationType= "dot";
+        String imagePath = gv.getTempDir() + "/out"+gv.getImageDpi()+"."+ type;
+	File out = new File( imagePath );  
+	gv.writeGraphToFile( gv.getGraph(gv.getDotSource(), type, repesentationType), out );
+        
+        return imagePath;
         
     }
     

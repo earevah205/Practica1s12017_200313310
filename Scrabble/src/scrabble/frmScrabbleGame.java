@@ -289,6 +289,18 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         
     }
     
+    private void mostrarPanelGraphviz(String imagePath){
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frmGraph it = new frmGraph(imagePath);
+        frame.add(it);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        
+    }
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -304,6 +316,7 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         btnListaJugadores = new javax.swing.JButton();
+        btnColaDeFichas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -319,6 +332,13 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
             }
         });
 
+        btnColaDeFichas.setText("Cola de Fichas");
+        btnColaDeFichas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnColaDeFichasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -330,7 +350,9 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
                         .addComponent(jLabel3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(btnListaJugadores)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnColaDeFichas)
+                            .addComponent(btnListaJugadores))))
                 .addContainerGap(264, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -340,7 +362,9 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(btnListaJugadores)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnColaDeFichas)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelEstadisticoLayout = new javax.swing.GroupLayout(panelEstadistico);
@@ -385,25 +409,25 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
 
         //creamos el objeto graphviz
         String imagePath = listaJugadores.crearImagenGraphviz();
-        
         System.out.println(imagePath);
-        
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frmGraph it = new frmGraph(imagePath);
-        frame.add(it);
-        frame.pack();
-        frame.setVisible(true);
+        mostrarPanelGraphviz(imagePath);
         
         
-        
-        return;
-
     }//GEN-LAST:event_btnListaJugadoresActionPerformed
+
+    private void btnColaDeFichasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColaDeFichasActionPerformed
+        
+        //creamos el objeto graphviz
+        String imagePath = colaDeFichas.crearImagenGraphviz();
+        System.out.println(imagePath);
+        mostrarPanelGraphviz(imagePath);
+        
+        
+    }//GEN-LAST:event_btnColaDeFichasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnColaDeFichas;
     private javax.swing.JButton btnListaJugadores;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

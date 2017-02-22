@@ -24,6 +24,7 @@ import scrabble.edd.ListaDiccionario;
 import scrabble.edd.ListaCircularJugadores;
 import scrabble.edd.ListaFichasJugador;
 import scrabble.edd.NodoCabeceraTablero;
+import scrabble.edd.NodoDiccionario;
 import scrabble.edd.NodoFicha;
 import scrabble.edd.NodoTablero;
 import scrabble.edd.Tablero;
@@ -83,6 +84,8 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         listenerDnD = new ListenerDnD(this);
         this.addMouseListener(listenerDnD);
         this.addMouseMotionListener(listenerDnD);
+        
+        //this.panelTablero.isOptimizedDrawingEnabled();
         
         //----------------------------------------------------------------
         
@@ -209,6 +212,36 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         
     }
 
+    private void ocultarTablero(){
+        
+        
+        if (tablero.getListaCabecera().getNodoInicio()!=null){
+            
+            NodoCabeceraTablero cabecera =  tablero.getListaCabecera().getNodoInicio();
+            
+            while (cabecera != null){
+            
+                int x = cabecera.getPosicionX();
+
+                if (cabecera.getNodoInicioTablero()!=null){
+                    NodoTablero celda = cabecera.getNodoInicioTablero();
+
+                    while (celda != null){
+                        
+                        panelTablero.remove(celda.getLabel());
+                        
+                        celda = celda.getAbajo();
+                    }
+                }
+                cabecera = cabecera.getDerecha();
+            }
+            
+        }
+        
+        
+        
+    }
+    
     private void mostrarTablero(){
         
         Insets insets = panelTablero.getInsets();
@@ -300,7 +333,8 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         
         //this.getContentPane().revalidate();
         //this.getContentPane().repaint();
-        //this.pack();
+        //this.pack()
+        panelTablero.repaint();
         
     }
     
@@ -321,6 +355,9 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         
         //Recorrer la lista de fichas y quitarlas una a una
         ListaFichasJugador fichasJugador = jugadorActual.getFichas();
+        
+        JOptionPane.showMessageDialog(this, "Turno del jugador " + jugadorActual.getNombre(), "Cambio de turno", JOptionPane.INFORMATION_MESSAGE);
+        
         NodoFicha nodo = fichasJugador.getInicio();
         int numero = 0;
         while (nodo!=null){
@@ -328,7 +365,6 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
             Ficha ficha = nodo.getFicha();
             
             panelTablero.remove(ficha.getLabel());
-            panelTablero.repaint();
             
             //movernos a la siguiente ficha
             nodo = nodo.getSiguiente();
@@ -337,7 +373,11 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         //mover al siguiente jugador
         listaJugadores.moverAlSiguiente();
         
+        ocultarTablero();
+                
         mostrarFichasJugador( );
+        
+        mostrarTablero();
         
     }
     
@@ -367,7 +407,7 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         jLabel2 = new javax.swing.JLabel();
         lblNombreJugador = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnValidarTiro = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btnSiguienteJugador = new javax.swing.JButton();
 
@@ -519,7 +559,12 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Validar Tiro");
+        btnValidarTiro.setText("Validar Tiro");
+        btnValidarTiro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnValidarTiroActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar Tiro");
 
@@ -536,7 +581,7 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jButton1)
+                .addComponent(btnValidarTiro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
@@ -548,7 +593,7 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnValidarTiro)
                     .addComponent(jButton2)
                     .addComponent(btnSiguienteJugador))
                 .addContainerGap(49, Short.MAX_VALUE))
@@ -664,6 +709,207 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         siguienteJugador();
     }//GEN-LAST:event_btnSiguienteJugadorActionPerformed
 
+    private void btnValidarTiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarTiroActionPerformed
+        
+        //tomamos las fichas que estan en el tablero (posicionEnTablero!=null)
+        
+        
+        //recorrer el tablero de izq a derecha y luego de arriba para abajo
+        
+        //de arriba para abajo
+        
+        for (int x=0; x<scrabble.getDimension(); x++){
+            
+            int puntos = 0;
+            String palabra = "";
+            boolean hayInteraccionConLaPalabra = false;
+            
+            for (int y=0; y<scrabble.getDimension(); y++){
+                
+                NodoTablero nodo = tablero.obtenerNodo(x, y);
+                
+                Ficha ficha = null; 
+                
+                
+                //revisar si es cualquiera de las que acabamos de colocar
+                ListaFichasJugador fichasJugador = jugadorActual.getFichas();
+                NodoFicha nodoFJ = fichasJugador.getInicio();
+                while (nodoFJ!=null){
+                    Ficha fichaJ = nodoFJ.getFicha();
+                    if (fichaJ.getPosicionEnTablero()!=null){
+                        if ((fichaJ.getPosicionEnTablero().x == x) &&(fichaJ.getPosicionEnTablero().y == y)){
+                            ficha = fichaJ;
+                            ficha.setOcupada(true);
+                            hayInteraccionConLaPalabra=true;
+                        }
+                    }
+                    //movernos a la siguiente ficha
+                    nodoFJ = nodoFJ.getSiguiente();
+                }
+                
+                if (ficha==null){
+                    //revisar si el tablero ya tiene una ficha
+                    if (nodo.getFicha()!=null){
+                        ficha = nodo.getFicha();
+                    }
+                }
+
+                
+                if (ficha != null){
+                    palabra += ficha.getLetra();
+                    puntos += nodo.getMultiplicador()*ficha.getPuntos();
+                } 
+                
+                
+                if ((ficha == null)||(y==scrabble.getDimension()-1)){
+                    //si aún es null es porque esta posicion en el tablero está vacia
+                    //por lo tanto evaluaremos si tenemos una palabra valida
+                    //o bien si es la ultima letra de esa lista
+                    
+                    if (hayInteraccionConLaPalabra && validarPalabra(palabra)){
+                        
+                        jugadorActual.setPunteo(jugadorActual.getPunteo()+puntos);
+                        JOptionPane.showMessageDialog(this, "Haz ganado " + puntos 
+                                +" por la palabra " + palabra + ".", "Adición Correcta", JOptionPane.INFORMATION_MESSAGE);
+                        //todas las fichas marcadas como ocupada pasan a ser
+                        //parte del tablero
+                        //ademas se le quitan al jugador
+                        //y se le reparte nuevamente
+
+
+                        NodoFicha nodoFJ2 = fichasJugador.getInicio();
+                        while (nodoFJ2!=null){
+                            Ficha fichaFJ2 = nodoFJ2.getFicha();
+                            if (fichaFJ2.isOcupada()){
+
+                                
+                                Ficha fichaPermanente = new Ficha();
+                                fichaPermanente.setLetra(fichaFJ2.getLetra());
+                                fichaPermanente.setPuntos(fichaFJ2.getPuntos());
+
+                                NodoTablero tmpNodo = tablero.obtenerNodo(fichaFJ2.getPosicionEnTablero().x, fichaFJ2.getPosicionEnTablero().y);
+                                
+                                tmpNodo.setFicha(fichaPermanente);
+                                tmpNodo.getLabel().setIcon(new ImageIcon(getClass().getResource("/scrabble/images/"+fichaFJ2.getLetra()+".png")));
+                                
+
+                                jugadorActual.quitarFicha(fichaFJ2);
+                                jugadorActual.agregarFicha(colaDeFichas.desencolar());
+
+                            }
+                            //movernos a la siguiente ficha
+                            nodoFJ2 = nodoFJ2.getSiguiente();
+                        }   
+
+                           
+                    }
+                    palabra="";
+                }
+            }
+        }
+        
+        for (int y=0; y<scrabble.getDimension(); y++){
+            
+            int puntos = 0;
+            String palabra = "";
+            boolean hayInteraccionConLaPalabra = false;
+            
+            for (int x=0; x<scrabble.getDimension(); x++){
+                
+                NodoTablero nodo = tablero.obtenerNodo(x, y);
+                
+                Ficha ficha = null; 
+                
+                //revisar si es cualquiera de las que acabamos de colocar
+                ListaFichasJugador fichasJugador = jugadorActual.getFichas();
+                NodoFicha nodoFJ = fichasJugador.getInicio();
+                while (nodoFJ!=null){
+                    Ficha fichaJ = nodoFJ.getFicha();
+                    if (fichaJ.getPosicionEnTablero()!=null){
+                        if ((fichaJ.getPosicionEnTablero().x == x) &&(fichaJ.getPosicionEnTablero().y == y)){
+                            ficha = fichaJ;
+                            ficha.setOcupada(true);
+                            hayInteraccionConLaPalabra=true;
+                        }
+                    }
+                    //movernos a la siguiente ficha
+                    nodoFJ = nodoFJ.getSiguiente();
+                }
+                
+                if (ficha==null){
+                    //revisar si el tablero ya tiene una ficha
+                    if (nodo.getFicha()!=null){
+                        ficha = nodo.getFicha();
+                    }
+                }
+
+                
+                if (ficha != null){
+                    palabra += ficha.getLetra();
+                    puntos += nodo.getMultiplicador()*ficha.getPuntos();
+                } 
+                
+                
+                if ((ficha == null)||(y==scrabble.getDimension()-1)){
+                    //si aún es null es porque esta posicion en el tablero está vacia
+                    //por lo tanto evaluaremos si tenemos una palabra valida
+                    //o bien si es la ultima letra de esa lista
+                    
+                    if (hayInteraccionConLaPalabra && validarPalabra(palabra)){
+                        
+                        jugadorActual.setPunteo(jugadorActual.getPunteo()+puntos);
+                        JOptionPane.showMessageDialog(this, "Haz ganado " + puntos 
+                                +" por la palabra " + palabra + ".", "Adición Correcta", JOptionPane.INFORMATION_MESSAGE);
+                        //todas las fichas marcadas como ocupada pasan a ser
+                        //parte del tablero
+                        //ademas se le quitan al jugador
+                        //y se le reparte nuevamente
+
+
+                        NodoFicha nodoFJ2 = fichasJugador.getInicio();
+                        while (nodoFJ2!=null){
+                            Ficha fichaFJ2 = nodoFJ2.getFicha();
+                            if (fichaFJ2.isOcupada()){
+
+                                
+                                Ficha fichaPermanente = new Ficha();
+                                fichaPermanente.setLetra(fichaFJ2.getLetra());
+                                fichaPermanente.setPuntos(fichaFJ2.getPuntos());
+
+                                NodoTablero tmpNodo = tablero.obtenerNodo(fichaFJ2.getPosicionEnTablero().x, fichaFJ2.getPosicionEnTablero().y);
+                                
+                                tmpNodo.setFicha(fichaPermanente);
+                                tmpNodo.getLabel().setIcon(new ImageIcon(getClass().getResource("/scrabble/images/"+fichaFJ2.getLetra()+".png")));
+                                
+
+                                jugadorActual.quitarFicha(fichaFJ2);
+                                jugadorActual.agregarFicha(colaDeFichas.desencolar());
+
+                            }
+                            //movernos a la siguiente ficha
+                            nodoFJ2 = nodoFJ2.getSiguiente();
+                        }   
+
+                           
+                    }
+                    palabra="";
+                }
+            }
+        }
+        
+        siguienteJugador();
+    }//GEN-LAST:event_btnValidarTiroActionPerformed
+
+    private boolean validarPalabra(String palabra){
+        NodoDiccionario nodoDiccionario = diccionario.getInicio();
+        while(nodoDiccionario!=null){
+            if (palabra.compareToIgnoreCase(nodoDiccionario.getPalabra().get())==0){
+                return true;
+            }
+            nodoDiccionario = nodoDiccionario.getSiguiente();
+        }
+        return false;              
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarPalabra;
@@ -673,7 +919,7 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
     private javax.swing.JButton btnListaPalabras;
     private javax.swing.JButton btnMatrizTablero;
     private javax.swing.JButton btnSiguienteJugador;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnValidarTiro;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

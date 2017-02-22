@@ -5,6 +5,7 @@
  */
 package scrabble.edd_models;
 
+import java.awt.Point;
 import javax.swing.JLabel;
 
 /**
@@ -14,6 +15,8 @@ import javax.swing.JLabel;
 public class Ficha {
     private String letra;
     private int puntos;
+    private Point posicionEnTablero;
+    private boolean ocupada = false;
     
     /**
      * Propiedades para manejo visual de las fichas
@@ -61,6 +64,34 @@ public class Ficha {
      */
     public void setLabel(JLabel label) {
         this.label = label;
+    }
+
+    /**
+     * @return the posicionEnTablero
+     */
+    public Point getPosicionEnTablero() {
+        return posicionEnTablero;
+    }
+
+    /**
+     * @param posicionEnTablero the posicionEnTablero to set
+     */
+    public void setPosicionEnTablero(Point posicionEnTablero) {
+        this.posicionEnTablero = posicionEnTablero;
+    }
+
+    /**
+     * @return the ocupada
+     */
+    public boolean isOcupada() {
+        return ocupada;
+    }
+
+    /**
+     * @param ocupada the ocupada to set
+     */
+    public void setOcupada(boolean ocupada) {
+        this.ocupada = ocupada;
     }
     
     

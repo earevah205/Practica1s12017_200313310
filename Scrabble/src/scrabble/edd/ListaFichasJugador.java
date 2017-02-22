@@ -5,6 +5,8 @@
  */
 package scrabble.edd;
 
+import com.github.jabbalaci.graphviz.GraphViz;
+import java.io.File;
 import scrabble.edd_models.Ficha;
 
 /**
@@ -81,6 +83,42 @@ public class ListaFichasJugador {
     
     public NodoFicha getFinal(){
         return nodoFin;
+    }
+    
+    public String crearImagenGraphviz(){
+        
+        
+        GraphViz gv = new GraphViz();
+        gv.addln(gv.start_graph());
+        
+        
+        NodoFicha nodo = nodoInicio;
+        int x = 1;    
+        while(nodo!=null){
+            if (nodo.getSiguiente()!=null){
+                String s = "{" + nodo.getFicha().getLetra().toLowerCase() + x + " [label=\"" + nodo.getFicha().getLetra() + "\"] }";
+                s += " -> {" + nodo.getSiguiente().getFicha().getLetra().toLowerCase() + (x+1) + " [label=\"" + nodo.getSiguiente().getFicha().getLetra() + "\"] }";
+                gv.addln(s);
+            }else{
+                String s = "{" + nodo.getFicha().getLetra().toLowerCase() + x + " [label=\"" + nodo.getFicha().getLetra() + "\"] }";
+                gv.addln(s);
+            }
+            x++;
+            nodo = nodo.getSiguiente();
+        }
+         
+        gv.addln(gv.end_graph());
+	        
+        System.out.println(gv.getDotSource());
+        gv.decreaseDpi();   // 106 dpi
+        String type = "gif";
+        String repesentationType= "dot";
+        String imagePath = gv.getTempDir() + "/out"+gv.getImageDpi()+"."+ type;
+	File out = new File( imagePath );  
+	gv.writeGraphToFile( gv.getGraph(gv.getDotSource(), type, repesentationType), out );
+        
+        return imagePath;
+        
     }
     
 }

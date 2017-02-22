@@ -317,6 +317,8 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         jLabel3 = new javax.swing.JLabel();
         btnListaJugadores = new javax.swing.JButton();
         btnColaDeFichas = new javax.swing.JButton();
+        btnListaPalabras = new javax.swing.JButton();
+        btnListaFichasActivas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -332,10 +334,24 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
             }
         });
 
-        btnColaDeFichas.setText("Cola de Fichas");
+        btnColaDeFichas.setText("Ver Cola de Fichas");
         btnColaDeFichas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnColaDeFichasActionPerformed(evt);
+            }
+        });
+
+        btnListaPalabras.setText("Ver Lista de Palabras");
+        btnListaPalabras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListaPalabrasActionPerformed(evt);
+            }
+        });
+
+        btnListaFichasActivas.setText("Ver Lista de Fichas Activa");
+        btnListaFichasActivas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListaFichasActivasActionPerformed(evt);
             }
         });
 
@@ -352,8 +368,12 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
                         .addGap(29, 29, 29)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnColaDeFichas)
-                            .addComponent(btnListaJugadores))))
-                .addContainerGap(264, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnListaJugadores)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnListaFichasActivas))
+                            .addComponent(btnListaPalabras))))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,10 +381,14 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(btnListaJugadores)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnListaJugadores)
+                    .addComponent(btnListaFichasActivas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnColaDeFichas)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnListaPalabras)
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelEstadisticoLayout = new javax.swing.GroupLayout(panelEstadistico);
@@ -421,14 +445,28 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         String imagePath = colaDeFichas.crearImagenGraphviz();
         System.out.println(imagePath);
         mostrarPanelGraphviz(imagePath);
-        
-        
     }//GEN-LAST:event_btnColaDeFichasActionPerformed
+
+    private void btnListaPalabrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaPalabrasActionPerformed
+        //creamos el objeto graphviz
+        String imagePath = diccionario.crearImagenGraphviz();
+        System.out.println(imagePath);
+        mostrarPanelGraphviz(imagePath);
+    }//GEN-LAST:event_btnListaPalabrasActionPerformed
+
+    private void btnListaFichasActivasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaFichasActivasActionPerformed
+        //creamos el objeto graphviz
+        String imagePath = jugadorActual.getFichas().crearImagenGraphviz();
+        System.out.println(imagePath);
+        mostrarPanelGraphviz(imagePath);
+    }//GEN-LAST:event_btnListaFichasActivasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnColaDeFichas;
+    private javax.swing.JButton btnListaFichasActivas;
     private javax.swing.JButton btnListaJugadores;
+    private javax.swing.JButton btnListaPalabras;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelEstadistico;

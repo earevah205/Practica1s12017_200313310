@@ -14,6 +14,7 @@ import java.awt.event.ComponentListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,6 +27,7 @@ import scrabble.edd.ListaFichasJugador;
 import scrabble.edd.NodoCabeceraTablero;
 import scrabble.edd.NodoDiccionario;
 import scrabble.edd.NodoFicha;
+import scrabble.edd.NodoJugador;
 import scrabble.edd.NodoTablero;
 import scrabble.edd.Tablero;
 import scrabble.edd_models.Ficha;
@@ -51,6 +53,8 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
     private ColaDeFichas colaDeFichas = new ColaDeFichas();
     private ListaCircularJugadores listaJugadores = new ListaCircularJugadores();
     private Jugador jugadorActual;
+    private DefaultListModel jugadoresRanking = new DefaultListModel();
+    
     
     private frmStartup parent;
     private ListenerDnD listenerDnD;
@@ -84,6 +88,8 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         listenerDnD = new ListenerDnD(this);
         this.addMouseListener(listenerDnD);
         this.addMouseMotionListener(listenerDnD);
+        
+        this.listRanking.setModel(jugadoresRanking);
         
         //this.panelTablero.isOptimizedDrawingEnabled();
         
@@ -203,12 +209,35 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         mostrarFichasJugador();
         //Mostrar el tablero de juego
         mostrarTablero();
-                
+        //Actualizar ranking
+        actualizarRanking();
         
         
         
         System.out.println("La cantidad de jugadores en la cola es de = " + parent.getJugadores().size());
         System.out.println("Fin de Carga");
+        
+    }
+    
+    private void actualizarRanking(){
+        jugadoresRanking = new DefaultListModel();
+        
+        NodoJugador tmpJugador = listaJugadores.getNodoActual();
+        
+        
+        if (tmpJugador!=null){
+            
+            while(tmpJugador.getSiguiente()!=listaJugadores.getNodoActual()){
+                
+                jugadoresRanking.addElement(tmpJugador.getJugador().getNombre() + "(" + tmpJugador.getJugador().getPunteo() + ")" );
+                
+                tmpJugador = tmpJugador.getSiguiente();
+            }
+            
+            jugadoresRanking.addElement(tmpJugador.getJugador().getNombre() + "(" + tmpJugador.getJugador().getPunteo() + ")" );
+        }
+        listRanking.setModel(jugadoresRanking);
+        
         
     }
 
@@ -356,8 +385,6 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         //Recorrer la lista de fichas y quitarlas una a una
         ListaFichasJugador fichasJugador = jugadorActual.getFichas();
         
-        JOptionPane.showMessageDialog(this, "Turno del jugador " + jugadorActual.getNombre(), "Cambio de turno", JOptionPane.INFORMATION_MESSAGE);
-        
         NodoFicha nodo = fichasJugador.getInicio();
         int numero = 0;
         while (nodo!=null){
@@ -373,11 +400,16 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         //mover al siguiente jugador
         listaJugadores.moverAlSiguiente();
         
+        
         ocultarTablero();
                 
         mostrarFichasJugador( );
         
         mostrarTablero();
+        
+        actualizarRanking();
+        
+        JOptionPane.showMessageDialog(this, "Turno del jugador " + jugadorActual.getNombre(), "Cambio de turno", JOptionPane.INFORMATION_MESSAGE);
         
     }
     
@@ -410,6 +442,10 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         btnValidarTiro = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btnSiguienteJugador = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listRanking = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -567,6 +603,11 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         });
 
         jButton2.setText("Cancelar Tiro");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         btnSiguienteJugador.setText("Siguiente Jugador");
         btnSiguienteJugador.addActionListener(new java.awt.event.ActionListener() {
@@ -599,6 +640,36 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
                 .addContainerGap(49, Short.MAX_VALUE))
         );
 
+        jLabel4.setText("RANKING");
+
+        listRanking.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(listRanking);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout panelEstadisticoLayout = new javax.swing.GroupLayout(panelEstadistico);
         panelEstadistico.setLayout(panelEstadisticoLayout);
         panelEstadisticoLayout.setHorizontalGroup(
@@ -606,6 +677,7 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
             .addGroup(panelEstadisticoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelEstadisticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -618,7 +690,9 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -640,7 +714,7 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(panelEstadistico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelTablero, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
+                    .addComponent(panelTablero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -900,6 +974,10 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         siguienteJugador();
     }//GEN-LAST:event_btnValidarTiroActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        siguienteJugador();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     private boolean validarPalabra(String palabra){
         NodoDiccionario nodoDiccionario = diccionario.getInicio();
         while(nodoDiccionario!=null){
@@ -924,11 +1002,15 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblNombreJugador;
+    private javax.swing.JList<String> listRanking;
     private javax.swing.JPanel panelEstadistico;
     private javax.swing.JPanel panelTablero;
     private javax.swing.JTextField txtAgregarPalabra;

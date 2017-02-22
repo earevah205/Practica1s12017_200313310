@@ -233,7 +233,19 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
 
                         //crear label
                         JLabel lbl = new javax.swing.JLabel();
-                        lbl.setIcon(new ImageIcon(getClass().getResource("/scrabble/images/empty.png")));
+                        
+                        String img = "empty.png";
+                        switch(celda.getMultiplicador()){
+                            case 1: img = "empty.png";
+                                break;
+                            case 2: img = "x2.png";
+                                break;
+                            case 3: img = "x3.png";
+                                break;
+                            
+                        }
+                        
+                        lbl.setIcon(new ImageIcon(getClass().getResource("/scrabble/images/"+img)));
                         lbl.setPreferredSize(FICHA_SIZE);
                         lbl.setBounds((TABLERO_OFFSET * x) + insets.left, (TABLERO_OFFSET * y) + insets.top,
                                         FICHA_SIZE.width, FICHA_SIZE.height);

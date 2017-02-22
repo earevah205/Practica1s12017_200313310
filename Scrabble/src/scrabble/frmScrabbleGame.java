@@ -5,11 +5,13 @@
  */
 package scrabble;
 
+import com.github.jabbalaci.graphviz.GraphViz;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.ImageIcon;
@@ -39,7 +41,6 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
     public static final int FICHAS_JUGADOR_OFFSET_Y = 80;
     public static final int TABLERO_OFFSET = 32;
     public static final Dimension FICHA_SIZE = new Dimension(32, 32);
-        
         
     
     private Scrabble scrabble;
@@ -300,17 +301,47 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
 
         panelTablero = new javax.swing.JPanel();
         panelEstadistico = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        btnListaJugadores = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         panelTablero.setOpaque(false);
         panelTablero.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("jLabel1");
+        jLabel3.setText("REPORTES");
 
-        jLabel2.setText("jLabel2");
+        btnListaJugadores.setText("Ver Lista de Jugadores");
+        btnListaJugadores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListaJugadoresActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(btnListaJugadores)))
+                .addContainerGap(264, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(btnListaJugadores)
+                .addContainerGap(78, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout panelEstadisticoLayout = new javax.swing.GroupLayout(panelEstadistico);
         panelEstadistico.setLayout(panelEstadisticoLayout);
@@ -318,18 +349,13 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
             panelEstadisticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEstadisticoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 380, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelEstadisticoLayout.setVerticalGroup(
             panelEstadisticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEstadisticoLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEstadisticoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelEstadisticoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -355,10 +381,32 @@ public class frmScrabbleGame extends javax.swing.JFrame implements ComponentList
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnListaJugadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaJugadoresActionPerformed
+
+        //creamos el objeto graphviz
+        String imagePath = listaJugadores.crearImagenGraphviz();
+        
+        System.out.println(imagePath);
+        
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frmGraph it = new frmGraph(imagePath);
+        frame.add(it);
+        frame.pack();
+        frame.setVisible(true);
+        
+        
+        
+        return;
+
+    }//GEN-LAST:event_btnListaJugadoresActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton btnListaJugadores;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelEstadistico;
     private javax.swing.JPanel panelTablero;
     // End of variables declaration//GEN-END:variables

@@ -5,6 +5,8 @@
  */
 package scrabble.edd;
 
+import com.github.jabbalaci.graphviz.GraphViz;
+import java.io.File;
 import scrabble.edd_models.Jugador;
 
 /**
@@ -23,6 +25,49 @@ public class ListaCircularJugadores {
         
         // Para hacerla circular 
         nodoActual.setSiguiente(nuevo);
+    }
+    
+    public String crearImagenGraphviz(){
+        
+        
+        GraphViz gv = new GraphViz();
+        gv.addln(gv.start_graph());
+        
+        
+        NodoJugador nodo = nodoActual;
+        if (nodo!=null){
+            
+            while(nodo.getSiguiente()!=nodoActual){
+                
+                String s = nodo.getJugador().getNombre();
+                s += " -> " + nodo.getSiguiente().getJugador().getNombre();
+                gv.addln(s);
+                
+                nodo = nodo.getSiguiente();
+            }
+            
+            //una ultima vez para cerrar el ciclo
+            String s = nodo.getJugador().getNombre();
+            s += " -> " + nodo.getSiguiente().getJugador().getNombre();
+            gv.addln(s);
+
+            
+            //gv.addln("A -> B;");
+            //gv.addln("A -> C;");
+            //gv.addln("B -> C;");
+        }
+        gv.addln(gv.end_graph());
+	        
+        System.out.println(gv.getDotSource());
+        gv.increaseDpi();   // 106 dpi
+        String type = "gif";
+        String repesentationType= "dot";
+        String imagePath = gv.getTempDir() + "/out"+gv.getImageDpi()+"."+ type;
+	File out = new File( imagePath );  
+	gv.writeGraphToFile( gv.getGraph(gv.getDotSource(), type, repesentationType), out );
+        
+        return imagePath;
+        
     }
     
     public boolean estaVacia() { return nodoActual == null; } 
@@ -45,5 +90,6 @@ public class ListaCircularJugadores {
     public void setNodoActual(NodoJugador nodoActual) {
         this.nodoActual = nodoActual;
     }
+    
     
 }

@@ -5,6 +5,7 @@
  */
 package scrabble;
 
+import com.github.jabbalaci.graphviz.GraphViz;
 import com.thoughtworks.xstream.XStream;
 import java.awt.Color;
 import java.awt.event.WindowEvent;
